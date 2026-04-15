@@ -24,6 +24,9 @@ def main(ticker: str, price: float, sector: str) -> None:
     #
     #                       WRITE CODE HERE!!!
     #
+    routingKey = sector + "." + ticker
+
+    print(routingKey)
 
 
     producer = mqProducer(routing_key=routingKey,exchange_name="Tech Lab Topic Exchange")
@@ -33,6 +36,10 @@ def main(ticker: str, price: float, sector: str) -> None:
     #
     #                       WRITE CODE HERE!!!
     #
+
+    message = ticker + " price is now $" + str(price)
+
+    print(message)
     
     
     producer.publishOrder(message)
@@ -43,5 +50,20 @@ if __name__ == "__main__":
     #
     #                       WRITE CODE HERE!!!
     #
+
+    if (len(sys.argv) != 4):
+        print(" Usage: ./publish ticker price sector")
+    
+    try:
+        # Attempt to convert the string to a float
+        value = float(sys.argv[2])
+        print(f"Success! The value is a float: {value}")
+    except ValueError:
+        print(f"Error: '{sys.argv[2]}' is not a valid number.")
+
+    ticker = sys.argv[1]
+    price = value
+    sector = sys.argv[3]
+    
 
     sys.exit(main(ticker,price,sector))
